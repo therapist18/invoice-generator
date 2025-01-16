@@ -97,7 +97,7 @@ const EditableInvoice = () => {
 
   return (
     <div className="sm:p-4 flex flex-col lg:flex-row sm:gap-6 lg:gap-8 w-full max-w-7xl mx-auto">
-      <div className="w-full lg:w-1/2 space-y-4 sm:space-y-6 bg-white sm:p-6 p-2 sm:rounded-lg shadow-sm">
+      <div className="w-full lg:w-1/2 space-y-4 sm:space-y-6 bg-white p-4 sm:p-6 rounded-lg shadow-sm">
         <div className="space-y-4">
           <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-primary flex items-center gap-2">
             Invoice Details
@@ -281,9 +281,11 @@ const EditableInvoice = () => {
         </div>
       </div>
 
-      <div className="w-full lg:w-1/2 bg-gray-50 sm:rounded-lg shadow-sm overflow-hidden">
-        <div className="min-w-[500px]">
-          <InvoicePreview invoiceData={invoiceData} />
+      <div className="w-full lg:w-1/2 bg-gray-50 rounded-lg shadow-sm overflow-hidden">
+        <div className="overflow-auto max-h-[calc(100vh-12rem)]">
+          <div className="min-w-[500px]">
+            <InvoicePreview invoiceData={invoiceData} />
+          </div>
         </div>
       </div>
     </div>

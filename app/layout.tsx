@@ -5,8 +5,12 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Invoice Generator',
-  description: 'Generate professional invoices easily',
+  title: 'Destiny Uniforms Invoice Generator',
+  description: 'Generate professional invoices for Destiny Uniforms',
+  icons: {
+    icon: '/assets/logo.png',
+    apple: '/assets/logo.png',
+  },
 }
 
 export default function RootLayout({
@@ -16,6 +20,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/assets/logo.png" />
+      </head>
       <body className={inter.className}>{children}</body>
     </html>
   )
