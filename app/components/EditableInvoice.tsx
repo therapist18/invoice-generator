@@ -129,7 +129,7 @@ const EditableInvoice = () => {
               <div className="relative">
                 <DatePicker
                   selected={invoiceData.date}
-                  onChange={(date: Date) => setInvoiceData(prev => ({ ...prev, date }))}
+                  onChange={(date: Date | null) => date && setInvoiceData(prev => ({ ...prev, date }))}
                   dateFormat="MMMM d, yyyy"
                   className="w-full p-2 border rounded focus:border-secondary pl-10"
                 />

@@ -92,10 +92,10 @@ const InvoicePreview = ({ invoiceData, className }: InvoicePreviewProps) => {
           <table className="w-full">
             <thead>
               <tr className="border-t-2 border-b-2 border-gray-800">
-                <th className="py-3 px-3 text-left text-left text-secondary w-20">QTY</th>
-                <th className="py-3 px-3 text-left text-left text-secondary">DESCRIPTIONS</th>
-                <th className="py-3 px-3 text-right text-left text-secondary w-32">PRICE</th>
-                <th className="py-3 px-3 text-right text-left text-secondary w-32">AMOUNT</th>
+                <th className="py-3 px-3 text-left text-secondary w-20">QTY</th>
+                <th className="py-3 px-3 text-left text-secondary">DESCRIPTIONS</th>
+                <th className="py-3 px-3 text-right text-secondary w-32">PRICE</th>
+                <th className="py-3 px-3 text-right text-secondary w-32">AMOUNT</th>
               </tr>
             </thead>
             <tbody>
