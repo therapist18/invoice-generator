@@ -34,8 +34,7 @@ export const generatePDF = async (element: HTMLElement) => {
 
     // Wait for images to load
     await new Promise((resolve) => {
-      const images = element.getElementsByTagName('img')
-      let loadedImages = 0
+      const images = Array.from(element.getElementsByTagName('img'))
       const totalImages = images.length
 
       if (totalImages === 0) {
@@ -43,7 +42,8 @@ export const generatePDF = async (element: HTMLElement) => {
         return
       }
 
-      for (let img of images) {
+      let loadedImages = 0
+      images.forEach(img => {
         if (img.complete) {
           loadedImages++
           if (loadedImages === totalImages) resolve(true)
@@ -57,7 +57,7 @@ export const generatePDF = async (element: HTMLElement) => {
             if (loadedImages === totalImages) resolve(true)
           }
         }
-      }
+      })
     })
 
     // Create canvas with proper dimensions
@@ -77,12 +77,12 @@ export const generatePDF = async (element: HTMLElement) => {
         clonedElement.style.backgroundColor = '#ffffff'
         
         // Ensure images maintain their dimensions
-        const images = clonedElement.getElementsByTagName('img')
-        for (let img of images) {
+        const images = Array.from(clonedElement.getElementsByTagName('img'))
+        images.forEach(img => {
           img.style.width = '120px'
           img.style.height = '120px'
           img.style.objectFit = 'contain'
-        }
+        })
       }
     })
 
