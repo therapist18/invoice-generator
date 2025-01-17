@@ -38,3 +38,22 @@
 - Add/remove invoice items functionality
 - Print styling optimization
 - Error notifications for failed exports
+
+## [0.2.0] - 2025-01-17
+### Added
+- Created responsive Sidebar component with collapsible functionality
+  - Added navigation links for Dashboard, Invoices, Sales, Expenses, Profile, and Settings
+  - Implemented responsive design that works across all screen sizes
+  - Added collapsible functionality with smooth transitions
+- Created Navbar component with user profile dropdown
+  - Added notifications button
+  - Implemented user profile dropdown with quick actions
+- Updated root layout to integrate new navigation components
+  - Implemented a modern two-panel layout with sidebar and main content area
+  - Added proper scrolling behavior for main content
+
+### Technical Details
+- Used Next.js 13+ app directory structure
+- Implemented components using ShadcnUI for consistent design
+- Used Lucide icons for a modern look
+- Ensured responsive design using Tailwind CSS

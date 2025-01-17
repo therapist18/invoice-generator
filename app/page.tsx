@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic'
 
-const EditableInvoice = dynamic(() => import('./components/EditableInvoice'), {
+const EditableInvoice = dynamic(() => import('./invoices/EditableInvoice'), {
   ssr: false
 })
 

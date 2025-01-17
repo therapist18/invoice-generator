@@ -2,15 +2,15 @@
 
 import dynamic from 'next/dynamic'
 import { useState } from 'react'
-import Input from './ui/input'
-import Label from './ui/label'
-import Button from './ui/button'
 import { FileText, FileDown, Plus, Trash2, Calendar, HelpCircle } from 'lucide-react'
 import { generatePDF } from '../../lib/pdfUtils'
 import { format } from 'date-fns'
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button'
 
 interface InvoiceItem {
   quantity: number
