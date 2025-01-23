@@ -1,14 +1,19 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import { Sidebar } from './components/navigation/sidebar'
-import { Navbar } from './components/navigation/navbar'
+import { Sidebar } from '@/components/layout/sidebar'
+import { Navbar } from '@/components/layout/navbar'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Invoice Generator',
-  description: 'Generate and manage your invoices easily',
+  title: 'Desiny Uniforms - Smart Business Management',
+  description: 'Manage your uniform business efficiently with Desiny Uniforms',
+  icons: {
+    icon: '/assets/logo.png',
+    shortcut: '/assets/logo.png',
+    apple: '/assets/logo.png',
+  },
 }
 
 export default function RootLayout({
@@ -19,14 +24,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="flex h-screen">
-          <Sidebar />
-          <div className="flex-1 flex flex-col">
-            <Navbar />
-            <main className="flex-1 overflow-y-auto p-4">
-              {children}
-            </main>
+        <div className="h-full relative">
+          <div className="hidden h-full md:flex md:w-72 md:flex-col md:fixed md:inset-y-0 z-[80] bg-gray-900">
+            <Sidebar />
           </div>
+          <main className="md:pl-72">
+            <Navbar />
+            {children}
+          </main>
         </div>
       </body>
     </html>
