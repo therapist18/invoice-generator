@@ -1,34 +1,50 @@
 "use client"
 
-import { UserButton } from "@/components/ui/user-button"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Search, Command, Bell } from "lucide-react"
+import { Menu, Search, Bell, HelpCircle, X } from "lucide-react"
 
-export function Navbar() {
+interface NavbarProps {
+  onToggleSidebar: () => void
+}
+
+export function Navbar({ onToggleSidebar }: NavbarProps) {
   return (
-    <div className="flex items-center p-4 border-b">
-      <div className="flex items-center flex-1 gap-x-4">
-        <div className="relative w-96">
-          <Search className="absolute h-4 w-4 top-3 left-3 text-muted-foreground" />
-          <Input
-            placeholder="Search uniforms, orders, customers..."
-            className="pl-10 pr-10 bg-secondary"
-          />
-          <div className="absolute top-2 right-2 bg-background rounded-sm px-1.5 py-1 text-muted-foreground border">
-            <Command className="h-4 w-4" />
-          </div>
-        </div>
+    <div className="fixed top-0 left-0 right-0 z-50 flex h-16 items-center gap-4 border-b bg-background px-4 lg:left-[72px]">
+      <Button
+        variant="ghost"
+        size="icon"
+        className="lg:hidden text-muted-foreground"
+        onClick={onToggleSidebar}
+      >
+        <Menu className="h-5 w-5" />
+      </Button>
+
+      {/* Search Bar */}
+      <div className="relative flex-1 max-w-xl">
+        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+        <Input 
+          placeholder="Search uniforms, orders, customers..." 
+          className="pl-9 bg-[#F9FAFB] border-none focus-visible:ring-0 h-9 text-sm"
+        />
+        <Button
+          variant="ghost"
+          size="icon"
+          className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7 hover:bg-transparent"
+        >
+          <X className="h-4 w-4 text-muted-foreground" />
+        </Button>
       </div>
-      <div className="flex items-center gap-x-4">
-        <Button variant="ghost" size="icon" className="relative">
+
+      {/* Right Side Actions */}
+      <div className="flex items-center gap-2">
+        <Button variant="ghost" size="icon" className="text-muted-foreground relative">
           <Bell className="h-5 w-5" />
-          <span className="absolute top-1 right-1 h-2 w-2 bg-red-600 rounded-full" />
+          <span className="absolute top-2 right-2 h-2 w-2 rounded-full bg-[#E31B54]" />
         </Button>
-        <Button variant="outline" size="sm">
-          Need Help?
+        <Button variant="ghost" size="icon" className="text-muted-foreground">
+          <HelpCircle className="h-5 w-5" />
         </Button>
-        <UserButton />
       </div>
     </div>
   )

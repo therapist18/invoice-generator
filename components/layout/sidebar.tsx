@@ -5,71 +5,68 @@ import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import {
-  Home,
+  LayoutDashboard,
+  DollarSign,
   FileText,
-  Tags,
-  ShoppingCart,
+  CreditCard,
+  Package,
   Users,
-  FileEdit,
-  PieChart,
-  MessageSquare,
-  Percent,
+  LineChart,
+  Megaphone,
+  ShoppingCart,
   Store,
-  ShoppingBag,
-  Settings,
-  Plus,
-  Receipt,
-  CreditCard
+  ChevronLeft
 } from "lucide-react"
+import { colors } from "@/lib/colors"
 
 const routes = [
   {
     label: 'Dashboard',
-    icon: Home,
+    icon: LayoutDashboard,
     href: '/',
-    color: "text-sky-500"
+    color: colors.text.primary
   },
   {
     label: 'Sales',
-    icon: ShoppingCart,
+    icon: DollarSign,
     href: '/sales',
-    color: "text-green-500"
+    color: colors.text.primary
   },
   {
     label: 'Invoices',
-    icon: Receipt,
+    icon: FileText,
     href: '/invoices',
-    color: "text-violet-500"
+    color: colors.text.primary
   },
   {
     label: 'Expenses',
     icon: CreditCard,
     href: '/expenses',
-    color: "text-pink-500"
+    color: colors.text.primary
   },
   {
     label: 'Products',
-    icon: Tags,
+    icon: Package,
     href: '/products',
-    color: "text-pink-700",
+    color: colors.text.primary
   },
   {
     label: 'Customers',
     icon: Users,
-    color: "text-orange-700",
     href: '/customers',
+    color: colors.text.primary
   },
   {
     label: 'Analytics',
-    icon: PieChart,
-    color: "text-yellow-700",
+    icon: LineChart,
     href: '/analytics',
+    color: colors.text.primary
   },
   {
     label: 'Marketing',
-    icon: MessageSquare,
-    color: "text-indigo-700",
+    icon: Megaphone,
     href: '/marketing',
+    color: colors.text.primary
   }
 ]
 
@@ -78,72 +75,86 @@ const salesChannels = [
     label: 'Online Store',
     icon: Store,
     href: '/online-store',
+    color: colors.text.primary
   },
   {
     label: 'Point of Sale',
-    icon: ShoppingBag,
+    icon: ShoppingCart,
     href: '/pos',
-  },
+    color: colors.text.primary
+  }
 ]
 
 interface SidebarProps {
-  className?: string
+  collapsed?: boolean
 }
 
-export function Sidebar({ className }: SidebarProps) {
+export function Sidebar({ collapsed = false }: SidebarProps) {
   const pathname = usePathname()
 
   return (
-    <div className={cn("pb-12 min-h-screen", className)}>
-      <div className="space-y-4 py-4">
-        <div className="px-3 py-2">
-          <Link href="/" className="flex items-center px-3 mb-8">
-            <Image
-              src="/assets/logo.png"
-              alt="Desiny Uniforms"
-              width={40}
-              height={40}
-              className="mr-2"
-            />
-            <h2 className="text-lg font-semibold text-white">Desiny Uniforms</h2>
-          </Link>
-          <div className="space-y-1">
-            {routes.map((route) => (
-              <Link
-                key={route.href}
-                href={route.href}
-                className={cn(
-                  "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer hover:text-white hover:bg-white/10 rounded-lg transition",
-                  pathname === route.href ? "text-white bg-white/10" : "text-zinc-400"
-                )}
-              >
-                <div className="flex items-center flex-1">
-                  <route.icon className={cn("h-5 w-5 mr-3", route.color)} />
-                  {route.label}
-                </div>
-              </Link>
-            ))}
+    <div className="h-full flex flex-col bg-white border-r" style={{ borderColor: colors.border.light }}>
+      <div className={cn("p-6", collapsed && "p-4")}>
+        <Link href="/" className="flex items-center gap-2">
+          <Image
+            src="/assets/logo.png"
+            alt="Desiny Uniforms"
+            width={40}
+            height={40}
+            className="rounded-full"
+          />
+          {!collapsed && (
+            <h1 className="text-xl font-bold" style={{ color: colors.text.primary }}>
+              Desiny Uniforms
+            </h1>
+          )}
+        </Link>
+      </div>
+
+      <div className="flex-1 px-4 space-y-2 overflow-y-auto">
+        <nav className="space-y-1">
+          {routes.map((route) => (
+            <Link
+              key={route.href}
+              href={route.href}
+              className={cn(
+                "flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg transition-colors",
+                pathname === route.href 
+                  ? "bg-gray-100 text-pink-500" 
+                  : "text-gray-500 hover:text-pink-500 hover:bg-gray-50",
+                collapsed && "justify-center px-2"
+              )}
+              title={collapsed ? route.label : undefined}
+            >
+              <route.icon className="h-5 w-5 flex-shrink-0" />
+              {!collapsed && route.label}
+            </Link>
+          ))}
+        </nav>
+
+        <div className={cn("pt-6", collapsed && "hidden")}>
+          <div className="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+            Sales Channels
           </div>
-        </div>
-        <div className="px-3 py-2">
-          <h2 className="mb-2 px-4 text-lg font-semibold text-white">Sales Channels</h2>
-          <div className="space-y-1">
+          <nav className="mt-2 space-y-1">
             {salesChannels.map((channel) => (
               <Link
                 key={channel.href}
                 href={channel.href}
                 className={cn(
-                  "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer hover:text-white hover:bg-white/10 rounded-lg transition",
-                  pathname === channel.href ? "text-white bg-white/10" : "text-zinc-400"
+                  "flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg transition-colors",
+                  pathname === channel.href 
+                    ? "bg-gray-100 text-pink-500" 
+                    : "text-gray-500 hover:text-pink-500 hover:bg-gray-50",
+                  collapsed && "justify-center px-2"
                 )}
+                title={collapsed ? channel.label : undefined}
               >
-                <div className="flex items-center flex-1">
-                  <channel.icon className="h-5 w-5 mr-3" />
-                  {channel.label}
-                </div>
+                <channel.icon className="h-5 w-5 flex-shrink-0" />
+                {!collapsed && channel.label}
               </Link>
             ))}
-          </div>
+          </nav>
         </div>
       </div>
     </div>

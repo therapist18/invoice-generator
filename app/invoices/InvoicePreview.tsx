@@ -1,9 +1,12 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import Image from 'next/image'
 import { cn } from '../../lib/utils'
 import { format } from 'date-fns'
+import { Button } from "@/components/ui/button"
+import { useToast } from '@/hooks/use-toast'
+import InvoiceService from '@/services/invoice-service'
 
 interface InvoicePreviewProps {
   invoiceData: {
@@ -26,10 +29,33 @@ interface InvoicePreviewProps {
 }
 
 const InvoicePreview = ({ invoiceData, className }: InvoicePreviewProps) => {
+  const { toast } = useToast()
+  const [loading, setLoading] = useState(false)
+
+  const handleExport = async () => {
+    try {
+      setLoading(true)
+      const service = InvoiceService.getInstance()
+      await service.exportInvoice(invoiceData.invoiceNumber)
+      
+      toast({
+        title: "Success",
+        description: "Invoice exported successfully",
+        type: "success"
+      })
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to export invoice",
+        type: "error"
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const calculateTotal = () => {
-    return invoiceData.items.reduce((total, item) => {
-      return total + item.quantity * item.price
-    }, 0)
+    return invoiceData.items.reduce((total, item) => total + item.quantity * item.price, 0)
   }
 
   const formatCurrency = (amount: number) => {
@@ -84,6 +110,16 @@ const InvoicePreview = ({ invoiceData, className }: InvoicePreviewProps) => {
           <div className="w-16 font-semibold">M/s.</div>
           <div className="flex-1 border-b-2 border-gray-300 ml-2 px-2">{invoiceData.clientName}</div>
         </div>
+      </div>
+
+      {/* Export Button */}
+      <div className="mb-8">
+        <Button 
+          onClick={handleExport}
+          disabled={loading}
+        >
+          {loading ? "Exporting..." : "Export Invoice"}
+        </Button>
       </div>
 
       {/* Items Table */}
