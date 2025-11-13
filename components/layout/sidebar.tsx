@@ -31,6 +31,18 @@ const routes = [
     icon: FileText,
     href: '/invoices',
     color: colors.text.primary
+  },
+  {
+    label: 'Price List',
+    icon: FileText,
+    href: '/price-list',
+    color: colors.text.primary
+  },
+  {
+    label: 'Schools',
+    icon: FileText,
+    href: '/schools',
+    color: colors.text.primary
   }
 ]
 

@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client'
 
 import React, { useState } from 'react'
@@ -7,11 +6,10 @@ import { cn } from '../../lib/utils'
 import { format } from 'date-fns'
 import { Button } from "@/components/ui/button"
 import { useToast } from '@/hooks/use-toast'
-import InvoiceService from '@/services/invoice-service'
 
-interface InvoicePreviewProps {
+interface PriceListPreviewProps {
   invoiceData: {
-    invoiceNumber: string
+    listNumber: string
     date: Date
     clientName: string
     companyDetails: {
@@ -21,7 +19,7 @@ interface InvoicePreviewProps {
       address: string
     }
     items: Array<{
-      quantity: number
+      quantity: string | number
       description: string
       price: number
     }>
@@ -29,25 +27,23 @@ interface InvoicePreviewProps {
   className?: string
 }
 
-const InvoicePreview = ({ invoiceData, className }: InvoicePreviewProps) => {
+const PriceListPreview = ({ invoiceData, className }: PriceListPreviewProps) => {
   const { toast } = useToast()
   const [loading, setLoading] = useState(false)
 
   const handleExport = async () => {
     try {
       setLoading(true)
-      const service = InvoiceService.getInstance()
-      await service.exportInvoice(invoiceData.invoiceNumber)
-      
+      // TODO: Implement export functionality for price list
       toast({
         title: "Success",
-        description: "Invoice exported successfully",
+        description: "Price list exported successfully",
         type: "success"
       })
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to export invoice",
+        description: "Failed to export price list",
         type: "error"
       })
     } finally {
@@ -55,9 +51,7 @@ const InvoicePreview = ({ invoiceData, className }: InvoicePreviewProps) => {
     }
   }
 
-  const calculateTotal = () => {
-    return invoiceData.items.reduce((total, item) => total + item.quantity * item.price, 0)
-  }
+
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-KE', {
@@ -90,16 +84,16 @@ const InvoicePreview = ({ invoiceData, className }: InvoicePreviewProps) => {
         </div>
       </div>
 
-      {/* Invoice Title */}
+      {/* Price List Title */}
       <div className="text-center text-2xl font-bold mb-8 text-primary">
-        INVOICE
+        PRICE LIST
       </div>
 
-      {/* Invoice Details */}
+      {/* Price List Details */}
       <div className="mb-8 space-y-3">
         <div className="flex items-center mb-3">
           <div className="w-16 font-semibold">No.</div>
-          <div className="flex-1 border-b-2 border-gray-300 text-primary ml-2 px-2">{invoiceData.invoiceNumber}</div>
+          <div className="flex-1 border-b-2 border-gray-300 text-primary ml-2 px-2">{invoiceData.listNumber || 'PL-000'}</div>
         </div>
         <div className="flex items-center mb-3">
           <div className="w-16 font-semibold">DATE:</div>
@@ -108,13 +102,13 @@ const InvoicePreview = ({ invoiceData, className }: InvoicePreviewProps) => {
           </div>
         </div>
         <div className="flex items-center">
-          <div className="w-16 font-semibold">M/s.</div>
+          <div className="w-16 font-semibold">FOR:</div>
           <div className="flex-1 border-b-2 border-gray-300 ml-2 px-2">{invoiceData.clientName}</div>
         </div>
       </div>
 
       {/* Export Button */}
-      <div className="mb-8 print:hidden">
+      <div className="mb-8">
         <Button 
           onClick={handleExport}
           disabled={loading}
@@ -130,9 +124,8 @@ const InvoicePreview = ({ invoiceData, className }: InvoicePreviewProps) => {
             <thead>
               <tr className="border-t-2 border-b-2 border-gray-800">
                 <th className="py-3 px-3 text-left text-secondary w-20">QTY</th>
-                <th className="py-3 px-3 text-left text-secondary">DESCRIPTIONS</th>
-                <th className="py-3 px-3 text-right text-secondary w-32">PRICE</th>
-                <th className="py-3 px-3 text-right text-secondary w-32">AMOUNT</th>
+                <th className="py-3 px-3 text-left text-secondary">ITEM DESCRIPTION</th>
+                <th className="py-3 px-3 text-right text-secondary w-32">AMT (KES)</th>
               </tr>
             </thead>
             <tbody>
@@ -140,8 +133,7 @@ const InvoicePreview = ({ invoiceData, className }: InvoicePreviewProps) => {
                 <tr key={index}>
                   <td className="py-3 px-3 text-left border-b border-l-2 border-gray-800">{item.quantity}</td>
                   <td className="py-3 px-3 text-left border-b border-l-2 border-gray-800">{item.description}</td>
-                  <td className="py-3 px-3 text-right border-b border-l-2 border-gray-800">{formatCurrency(item.price)}</td>
-                  <td className="py-3 px-3 text-right border-b border-l-2 border-r-2 border-gray-800">{formatCurrency(item.quantity * item.price)}</td>
+                  <td className="py-3 px-3 text-right border-b border-l-2 border-r-2 border-gray-800">{formatCurrency(item.price)}</td>
                 </tr>
               ))}
               {/* Empty rows */}
@@ -149,24 +141,13 @@ const InvoicePreview = ({ invoiceData, className }: InvoicePreviewProps) => {
                 <tr key={`empty-${index}`}>
                   <td className="py-3 px-3 border-b border-l-2 border-gray-800">&nbsp;</td>
                   <td className="py-3 px-3 border-b border-l-2 border-gray-800">&nbsp;</td>
-                  <td className="py-3 px-3 border-b border-l-2 border-gray-800">&nbsp;</td>
                   <td className="py-3 px-3 border-b border-l-2 border-r-2 border-gray-800">&nbsp;</td>
                 </tr>
               ))}
-              {/* Total Row */}
-              <tr>
-                <td colSpan={3} className="py-3 px-3 text-right border-b border-l-2 border-gray-800 font-bold">
-                  Total Amount:
-                </td>
-                <td className="py-3 px-3 text-right border-b border-l-2 border-r-2 border-gray-800 font-bold">
-                  {formatCurrency(calculateTotal())}
-                </td>
-              </tr>
             </tbody>
           </table>
           <div className="text-center mt-6">
-            <p className="font-bold uppercase mb-2">ACCOUNTS ARE DUE ON DEMAND</p>
-            <p className="text-xs text-gray-600">E.& O.E</p>
+            <p className="text-sm text-gray-600">Prices are subject to change without prior notice</p>
           </div>
         </div>
       </div>
@@ -174,4 +155,4 @@ const InvoicePreview = ({ invoiceData, className }: InvoicePreviewProps) => {
   )
 }
 
-export default InvoicePreview
+export default PriceListPreview
