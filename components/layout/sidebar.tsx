@@ -27,60 +27,9 @@ const routes = [
     color: colors.text.primary
   },
   {
-    label: 'Sales',
-    icon: DollarSign,
-    href: '/sales',
-    color: colors.text.primary
-  },
-  {
     label: 'Invoices',
     icon: FileText,
     href: '/invoices',
-    color: colors.text.primary
-  },
-  {
-    label: 'Expenses',
-    icon: CreditCard,
-    href: '/expenses',
-    color: colors.text.primary
-  },
-  {
-    label: 'Products',
-    icon: Package,
-    href: '/products',
-    color: colors.text.primary
-  },
-  {
-    label: 'Customers',
-    icon: Users,
-    href: '/customers',
-    color: colors.text.primary
-  },
-  {
-    label: 'Analytics',
-    icon: LineChart,
-    href: '/analytics',
-    color: colors.text.primary
-  },
-  {
-    label: 'Marketing',
-    icon: Megaphone,
-    href: '/marketing',
-    color: colors.text.primary
-  }
-]
-
-const salesChannels = [
-  {
-    label: 'Online Store',
-    icon: Store,
-    href: '/online-store',
-    color: colors.text.primary
-  },
-  {
-    label: 'Point of Sale',
-    icon: ShoppingCart,
-    href: '/pos',
     color: colors.text.primary
   }
 ]
@@ -131,31 +80,6 @@ export function Sidebar({ collapsed = false }: SidebarProps) {
             </Link>
           ))}
         </nav>
-
-        <div className={cn("pt-6", collapsed && "hidden")}>
-          <div className="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">
-            Sales Channels
-          </div>
-          <nav className="mt-2 space-y-1">
-            {salesChannels.map((channel) => (
-              <Link
-                key={channel.href}
-                href={channel.href}
-                className={cn(
-                  "flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg transition-colors",
-                  pathname === channel.href 
-                    ? "bg-gray-100 text-pink-500" 
-                    : "text-gray-500 hover:text-pink-500 hover:bg-gray-50",
-                  collapsed && "justify-center px-2"
-                )}
-                title={collapsed ? channel.label : undefined}
-              >
-                <channel.icon className="h-5 w-5 flex-shrink-0" />
-                {!collapsed && channel.label}
-              </Link>
-            ))}
-          </nav>
-        </div>
       </div>
     </div>
   )
