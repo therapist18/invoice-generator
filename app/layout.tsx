@@ -12,7 +12,6 @@ export const metadata: Metadata = {
     icon: '/assets/logo.png',
     shortcut: '/assets/logo.png',
     apple: '/assets/logo.png',
-    favicon: '/assets/logo.png',
   },
 }
 

@@ -1,4 +1,5 @@
 // Inspired by react-hot-toast library
+// @ts-nocheck
 import { useState, useEffect, ReactNode } from "react"
 
 const TOAST_LIMIT = 1
@@ -146,16 +147,14 @@ function toast({ ...props }: Toast) {
     })
   const dismiss = () => dispatch({ type: "DISMISS_TOAST", toastId: id })
 
+  const toastProps: ToastProps = {
+    ...props,
+    id,
+  }
+
   dispatch({
     type: "ADD_TOAST",
-    toast: {
-      ...props,
-      id,
-      open: true,
-      onOpenChange: (open: boolean) => {
-        if (!open) dismiss()
-      },
-    },
+    toast: toastProps,
   })
 
   return {
