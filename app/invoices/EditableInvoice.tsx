@@ -32,7 +32,7 @@ const EditableInvoice = () => {
     companyDetails: {
       name: 'Destiny Uniform Plus',
       phone: '0722 320830 / 0785 320830',
-      email: 'info@destinyuniforms.com',
+      email: 'destinyuniforms03@gmail.com',
       address: 'Mombasa, Kenya'
     },
     items: [
